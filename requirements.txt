@@ -1,4 +1,0 @@
-pandas
-kagglehub
-dotenv
-sqlalchemy

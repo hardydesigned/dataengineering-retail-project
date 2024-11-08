@@ -7,7 +7,6 @@ services:
       - .env
     build:
       context: .
-      dockerfile: Dockerfile
     environment:
       USER_CODE_PATH: .:/volume/${PROJECT_NAME}
       POSTGRES_DBNAME: ${POSTGRES_DBNAME}
@@ -19,17 +18,36 @@ services:
     ports:
       - 6789:6789
     volumes:
-      - .:/volume
+      - ./volume:/home/src/
+      - ~/Documents/secrets/personal-gcp.json:/home/src/personal-gcp.json
     restart: on-failure:5
-  postgres:
-    image: postgres:14
-    restart: on-failure
-    container_name: ${PROJECT_NAME}-postgres
+    networks:
+      - postgres-network
+
+  database:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
     env_file:
       - .env
-    environment:
-      POSTGRES_DB: ${POSTGRES_DBNAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - postgres-network
+    volumes:
+      - ./volume/postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - 15433:80
+    env_file:
+      - .env
+    depends_on:
+      - database
+    volumes:
+      - ./volume/pgadmin_data:/var/lib/pgadmin/
+    restart: on-failure:5
+    networks:
+      - postgres-network
+
+networks: 
+  postgres-network:
+    driver: bridge

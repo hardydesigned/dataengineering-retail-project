@@ -6,12 +6,13 @@ from sqlalchemy import create_engine
 
 load_dotenv()
 
-user = os.environ['POSTGRES_USER']
+user = os.environ['POSTGRES_USER'] 
 password = os.environ['POSTGRES_PASSWORD']
 host = os.environ['POSTGRES_HOST']
 port = os.environ['POSTGRES_PORT']
 db = os.environ['POSTGRES_DBNAME']
 table_name = os.environ['POSTGRES_SCHEMA']
+
 
 def ingest_data(table_name, data_path):
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')

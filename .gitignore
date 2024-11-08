@@ -1,2 +1,10 @@
 .env*
 *.json
+pgadmin_data
+postgres_data
+.vscode
+main.tf
+asgfdndsadsDFG
+.terraform*
+terraform.tfstate
+terraform.tfstate.backup
