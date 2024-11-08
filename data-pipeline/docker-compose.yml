@@ -19,7 +19,7 @@ services:
       - 6789:6789
     volumes:
       - ./volume:/home/src/
-      - ~/Documents/secrets/personal-gcp.json:/home/src/personal-gcp.json
+      - ~/path/to/your/credentials.json:/home/src/personal-gcp.json
     restart: on-failure:5
     networks:
       - postgres-network
